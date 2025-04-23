@@ -79,3 +79,43 @@ cd ../client
 npm install
 npm start
 ```
+## 📁 Folder Structure
+```csharp
+Job-Tracker/
+├── client/                  # Frontend (React)
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       ├── utils/
+│       └── App.jsx
+├── server/                  # Backend (Express)
+│   ├── models/
+│   ├── routes/
+│   ├── controllers/
+│   └── server.js
+├── .gitignore
+└── README.md
+```
+## 🖼️ Screenshots
+-Add screenshots or GIFs of the dashboard, job list, status tracking, etc.
+## 🧑‍💻 Author
+-Manish Raj Pandey
+-GitHub: @Manish3Air
+-LinkedIn: [Your LinkedIn Profile]
+-Email: [your-email@example.com]
+## 📜 License
+-This project is licensed under the MIT License.
+## 🌟 Contributing
+-Contributions are welcome! Follow these steps:
+-Fork this repository
+-Create a new branch (git checkout -b feature-name)
+-Make your changes
+-Commit and push (git commit -m 'added feature' && git push)
+-Submit a pull request
+## 🗂️ Issues & Suggestions
+Found a bug or want to request a feature?
+Submit an issue here: GitHub Issues
+## 📬 Contact
+-Got questions or feedback?
+-📧 Reach out at your-email@example.com
