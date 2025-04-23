@@ -54,7 +54,7 @@ const PlansSection = () => {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`max-w-sm bg-base-100 rounded-full shadow-md p-6 text-center transition hover:shadow-amber-100 ${
+              className={`max-w-sm sm:text-center bg-base-100 rounded-xl shadow-md p-6  transition hover:shadow-amber-100 ${
                 plan.isPopular ? "bg-base-100  border-4 border-primary" : ""
               }`}
             >

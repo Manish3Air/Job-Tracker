@@ -12,6 +12,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Docs from './pages/Docs';
 import PrivateRoute from './components/PrivateRoute';
+import BackToTop from './components/BackToTop';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           </Routes>
         </div>
         <Footer />
+        <BackToTop />
       </div>
     </Router>
   );
