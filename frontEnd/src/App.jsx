@@ -12,6 +12,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Docs from './pages/Docs';
 import PrivateRoute from './components/PrivateRoute';
+import Me from './pages/Me';
 import BackToTop from './components/BackToTop';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/docs" element={<Docs />} />
 
             {/* Private Routes */}
+            <Route path="/me" element={<PrivateRoute><Me /></PrivateRoute>} />
             <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/tracker" element={<PrivateRoute><Tracker /></PrivateRoute>} />
             <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
