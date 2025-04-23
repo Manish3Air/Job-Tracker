@@ -44,15 +44,15 @@ git clone https://github.com/Manish3Air/Job-Tracker.git
 cd Job-Tracker
 ```
 ### 2️⃣ Setup MongoDB Atlas Database
--Go to https://www.mongodb.com/cloud/atlas
--Create an account and a new project (e.g., Job-Tracker)
--Create a free shared cluster
--Click “Browse Collections” > Add My Own Data
--Database Name: jobtracker
--Collection Name: applications
--Add a new Database User in “Database Access”
--Whitelist your IP address in “Network Access” (or allow 0.0.0.0/0)
--Copy your connection string from “Connect > Connect Your Application”
+- Go to https://www.mongodb.com/cloud/atlas
+- Create an account and a new project (e.g., Job-Tracker)
+- Create a free shared cluster
+- Click “Browse Collections” > Add My Own Data
+- Database Name: jobtracker
+- Collection Name: applications
+- Add a new Database User in “Database Access”
+- Whitelist your IP address in “Network Access” (or allow 0.0.0.0/0)
+- Copy your connection string from “Connect > Connect Your Application”
 
 ```bash
 mongodb+srv://<username>:<password>@cluster0.mongodb.net/jobtracker?retryWrites=true&w=majority
@@ -100,22 +100,22 @@ Job-Tracker/
 ## 🖼️ Screenshots
 -Add screenshots or GIFs of the dashboard, job list, status tracking, etc.
 ## 🧑‍💻 Author
--Manish Raj Pandey
--GitHub: @Manish3Air
--LinkedIn: [Your LinkedIn Profile]
--Email: [your-email@example.com]
+- Manish Raj Pandey
+- GitHub: @Manish3Air
+- LinkedIn: [Your LinkedIn Profile]
+- Email: [your-email@example.com]
 ## 📜 License
--This project is licensed under the MIT License.
+- This project is licensed under the MIT License.
 ## 🌟 Contributing
--Contributions are welcome! Follow these steps:
--Fork this repository
--Create a new branch (git checkout -b feature-name)
--Make your changes
--Commit and push (git commit -m 'added feature' && git push)
--Submit a pull request
+- Contributions are welcome! Follow these steps:
+- Fork this repository
+- Create a new branch (git checkout -b feature-name)
+- Make your changes
+- Commit and push (git commit -m 'added feature' && git push)
+- Submit a pull request
 ## 🗂️ Issues & Suggestions
-Found a bug or want to request a feature?
-Submit an issue here: GitHub Issues
+- Found a bug or want to request a feature?
+- Submit an issue here: GitHub Issues
 ## 📬 Contact
--Got questions or feedback?
--📧 Reach out at your-email@example.com
+- Got questions or feedback?
+- 📧 Reach out at your-email@example.com
