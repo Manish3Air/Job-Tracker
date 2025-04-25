@@ -7,18 +7,19 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Tracker from './pages/Tracker';
-import Analytics from './pages/Analytics';
+// import Analytics from './pages/Analytics';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Docs from './pages/Docs';
 import PrivateRoute from './components/PrivateRoute';
 import Me from './pages/Me';
 import BackToTop from './components/BackToTop';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   return (
 
-    
+    <div>
     <Router>
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
@@ -41,6 +42,8 @@ function App() {
         <BackToTop />
       </div>
     </Router>
+    <Analytics />
+    </div>
   );
 }
 
