@@ -82,15 +82,19 @@ npm start
 ## 📁 Folder Structure
 ```csharp
 Job-Tracker/
-├── client/                  # Frontend (React)
+├── frontEnd/                  # Frontend (React)
 │   ├── public/
 │   └── src/
 │       ├── components/
 │       ├── pages/
+│       ├── assets/
+│       ├── context/
 │       ├── utils/
 │       └── App.jsx
-├── server/                  # Backend (Express)
+├── BackEnd/                  # Backend (Express)
 │   ├── models/
+│   ├── config/
+│   ├── middleware/
 │   ├── routes/
 │   ├── controllers/
 │   └── server.js
