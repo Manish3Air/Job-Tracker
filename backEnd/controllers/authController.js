@@ -3,9 +3,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 // Generate JWT
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
+    expiresIn: "30d",
   });
 };
 
@@ -13,6 +14,7 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 const registerUser = async (req, res) => {
+  // console.log("API HIT REGISTER");
   const { name, email, password } = req.body;
 
   try {
@@ -25,12 +27,10 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
     res.status(201).json({
@@ -40,7 +40,8 @@ const registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    // console.log(error || error.message || error.name || error.code || error.path || error.value);
+    res.status(500).json({ message: 'Server error', error  });
   }
 };
 
@@ -48,15 +49,22 @@ const registerUser = async (req, res) => {
 // @route   POST /api/auth/login
 // @access  Public
 const loginUser = async (req, res) => {
+  // console.log("API HIT LOGIN");
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!user) return res.status(400).json({ message: 'Invalid credentials email' });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    // console.log(isMatch);
+    // console.log("Password entered:", password);
+    // console.log("Hashed in DB:", user.password);
 
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials password' });
+
+    
+    
     res.status(200).json({
       _id: user._id,
       name: user.name,

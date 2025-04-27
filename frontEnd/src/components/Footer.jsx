@@ -4,7 +4,8 @@ import { Github, Twitter, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-base-200 to-base-300 text-base-content">
+    <footer className="bg-gradient-to-br bg-base-100  text-base-content"
+    >
       <div className="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center md:items-start gap-6">
         {/* Logo & Description */}
         <div className="text-center md:text-left">

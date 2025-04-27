@@ -1,48 +1,46 @@
-// App.jsx
+// src/App.jsx
 import React from 'react';
-
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Tracker from './pages/Tracker';
-// import Analytics from './pages/Analytics';
+import Docs from './pages/Docs';
+import Me from './pages/Me';
+import AddApplication from './pages/AddApplication'; // ✅ NEW Import
+import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Docs from './pages/Docs';
-import PrivateRoute from './components/PrivateRoute';
-import Me from './pages/Me';
 import BackToTop from './components/BackToTop';
-import { Analytics } from '@vercel/analytics/react';
+import  Analytics  from './pages/Analytics';
 
 function App() {
   return (
-
     <div>
-    <Router>
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        <Navbar />
-        <div className="flex-grow">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/docs" element={<Docs />} />
+      <Router>
+        <div className="min-h-screen flex flex-col bg-amber-100">
+          <Navbar />
+          <div className="flex-grow">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Landing />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/docs" element={<Docs />} />
 
-            {/* Private Routes */}
-            <Route path="/me" element={<PrivateRoute><Me /></PrivateRoute>} />
-            <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-            <Route path="/tracker" element={<PrivateRoute><Tracker /></PrivateRoute>} />
-            <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
-          </Routes>
+              {/* Private Routes */}
+              <Route path="/me" element={<PrivateRoute><Me /></PrivateRoute>} />
+              <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+              <Route path="/tracker" element={<PrivateRoute><Tracker /></PrivateRoute>} />
+              <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
+              <Route path="/add-application" element={<PrivateRoute><AddApplication /></PrivateRoute>} /> {/* ✅ Added Route */}
+            </Routes>
+          </div>
+          <Footer />
+          <BackToTop />
         </div>
-        <Footer />
-        <BackToTop />
-      </div>
-    </Router>
-    <Analytics />
+      </Router>
     </div>
   );
 }

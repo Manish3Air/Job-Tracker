@@ -8,7 +8,7 @@ const CallToAction = () => {
         <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">
           Ready to take control of your job search?
         </h2>
-        <p className="text-lg mb-8">
+        <p className="text-lg mb-8 text-base-content/90">
           Start tracking your applications, setting goals, and staying organized—all in one place.
         </p>
         <Link

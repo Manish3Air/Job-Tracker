@@ -1,9 +1,11 @@
+import { fromJSON } from "postcss";
 import React from "react";
 import { Link } from "react-router-dom";
+import home from "../assets/home.png"; 
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-base-200 px-6 pt-10 lg:pt-20">
+    <section className="min-h-screen flex items-center justify-center bg-base-200 px-6 pt-10 lg:pt-20 text-primary">
       <div className="max-w-7xl w-full flex flex-col lg:flex-row items-center gap-10">
         {/* Text Content */}
         <div className="flex-1 space-y-6 text-center lg:text-left">
@@ -14,7 +16,7 @@ const HeroSection = () => {
             Track applications, stay motivated, and land your next job faster with JobTracker.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Link to="/register" className="btn btn-primary px-6 text-lg">
+            <Link to="/register" className="btn btn-neutral px-6 text-lg">
               Get Started
             </Link>
             <Link to="/docs" className="btn btn-outline btn-secondary px-6 text-lg">
@@ -24,9 +26,9 @@ const HeroSection = () => {
         </div>
 
         {/* Hero Image */}
-        <div className="flex-1">
+        <div className="flex-1 w-full max-w-md lg:max-w-lg">
           <img
-            src="/illustrations/job-hunt-hero.svg"
+            src={home}
             alt="Job hunt illustration"
             className="w-full max-w-md mx-auto lg:mx-0"
           />

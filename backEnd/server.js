@@ -4,6 +4,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 
 
 
@@ -30,6 +31,7 @@ app.use(express.json());
 
 // ✅ Routes
 app.use('/api/auth', authRoutes); // ✅ Auth routes
+app.use('/api/applications', applicationRoutes);
 
 
 // ✅ Start server
