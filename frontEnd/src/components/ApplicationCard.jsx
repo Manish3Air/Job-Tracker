@@ -10,6 +10,8 @@ export default function ApplicationCard({
   onDelete 
 }) {
   // Choose badge color based on status
+
+  
   const statusColor = {
     Applied: "badge-primary",
     Interview: "badge-info",
@@ -35,7 +37,7 @@ export default function ApplicationCard({
           <div className="flex space-x-2">
             <button
               className="btn btn-sm btn-outline btn-primary"
-              onClick={onEdit()}
+              onClick={onEdit}
               title="Edit"
             >
               <Pencil size={16} />

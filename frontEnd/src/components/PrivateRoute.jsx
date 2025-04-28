@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
 
   if (loading) {
     // 🛑 Important: don't render anything until we know user's auth status
-    console.log("Loading user authentication status...");
+    // console.log("Loading user authentication status...");
     return (
       <div className="flex items-center justify-center h-screen">
         <span className="loading loading-spinner loading-lg text-black-600 bg-amber-500"
@@ -21,7 +21,7 @@ const PrivateRoute = ({ children }) => {
   }
 
   if (!user) {
-    console.log("User not authenticated, redirecting to login...",user);
+    // console.log("User not authenticated, redirecting to login...",user);
     return <Navigate to="/login" replace />;
   }
 return children;

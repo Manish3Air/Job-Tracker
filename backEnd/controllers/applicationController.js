@@ -37,6 +37,26 @@ const Application = require("../models/Application.js")
   }
 };
 
+// get application by id  
+const getApplicationById = async (req, res) => {
+    try {
+      const application = await Application.findOne({ 
+        _id: req.params.id, 
+        user: req.user.id // To make sure the user can only access their own applications
+      });
+  
+      if (!application) {
+        return res.status(404).json({ success: false, message: "Application not found" });
+      }
+  
+      res.status(200).json({ success: true, application });
+    } catch (error) {
+      console.error("Get Application By ID Error:", error);
+      res.status(500).json({ success: false, message: "Server Error" });
+    }
+  };
+  
+
 // Update an application
  const updateApplication = async (req, res) => {
   try {
@@ -80,4 +100,4 @@ const Application = require("../models/Application.js")
   }
 };
 
-module.exports = {createApplication,getApplications,updateApplication,deleteApplication};
+module.exports = {createApplication,getApplications,updateApplication,deleteApplication,getApplicationById};

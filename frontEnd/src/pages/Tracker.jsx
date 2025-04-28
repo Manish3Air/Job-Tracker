@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axios";
 import ApplicationCard from "../components/ApplicationCard";
 
 const Tracker = () => {
@@ -23,7 +23,7 @@ const Tracker = () => {
           setApplications(response.data.applications || []); // Safety fallback
           console.log("Fetched Applications:", response.data);
         } else {
-          window.location.href = "/login";
+          navigate("/login");
         }
       } catch (error) {
         console.error("Error fetching applications:", error);
@@ -36,11 +36,10 @@ const Tracker = () => {
   }, []);
 
   const handleEdit = (applicationId) => {
-    console.log("Edit clicked:", applicationId);
-    // TODO: Navigate to edit page or open a modal
-    navigate("/add-application");
-
+    // console.log("Edit clicked..." , applicationId);
+    navigate("/add-application", { state: { applicationId } });
   };
+  
 
   const handleDelete = async (applicationId) => {
     if (!window.confirm("Are you sure you want to delete this application?")) return;
@@ -79,7 +78,7 @@ const Tracker = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Array.isArray(applications) && applications.length === 0 ? (
-            <div className="col-span-3 text-center text-gray-600">No applications found.</div>
+            <div className="col-span-3 text-center">No applications found.</div>
           ) : (
             applications.map((app) => (
               <ApplicationCard
