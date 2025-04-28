@@ -1,66 +1,114 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import AuthContext from "../context/AuthContext";
 import ApplicationCard from "../components/ApplicationCard";
 import CountUp from "react-countup";
+import axios from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
 
-const recentApplications = [
-  {
-    id: 1,
-    company: "Google",
-    position: "Frontend Developer",
-    status: "Interview",
-    appliedDate: "April 24, 2025",
-  },
-  {
-    id: 2,
-    company: "Amazon",
-    position: "Backend Engineer",
-    status: "Applied",
-    appliedDate: "April 22, 2025",
-  },
-];
-
-// 🔥 Variants for whole page
 const pageVariants = {
   initial: { opacity: 0, y: 50 },
   animate: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
-// 🔥 Variants for stat cards container
 const statContainerVariants = {
   animate: {
     transition: {
-      staggerChildren: 0.2, // Delay between cards
+      staggerChildren: 0.2,
     },
   },
 };
 
-// 🔥 Variants for each stat card
 const cardVariants = {
   initial: { opacity: 0, scale: 0.9 },
-  animate: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } },
-};
-
-const recentContainerVariants = {
   animate: {
-    transition: {
-      staggerChildren: 0.15, // a bit faster than stats
-    },
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
   },
-};
-
-const recentCardVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
-  // console.log("User in Dashboard:", user); // Debugging line
-  // console.log(user?.name)
-// Add these variants above inside Dashboard.jsx
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState(""); // <- new filter state
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get("/api/applications", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        setApplications(response.data.applications || []);
+        console.log("Fetched applications:", response.data.applications);
+      } catch (error) {
+        console.error("Error fetching applications:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApplications();
+  }, []);
+
+  const handleEdit = (applicationId) => {
+    // console.log("Edit clicked..." , applicationId);
+    navigate("/add-application", { state: { applicationId } });
+  };
+
+  const handleDelete = async (applicationId) => {
+    if (!window.confirm("Are you sure you want to delete this application?"))
+      return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(`/api/applications/${applicationId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // After delete, refetch or update UI manually
+      setApplications((prev) =>
+        prev.filter((app) => app._id !== applicationId)
+      );
+      console.log("Deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting application:", error);
+    }
+  };
+
+  const totalApplications = applications.length;
+  const offersReceived = applications.filter(
+    (app) => app.status === "Offer"
+  ).length;
+  const interviewsScheduled = applications.filter(
+    (app) => app.status === "Interview"
+  ).length;
+  const rejections = applications.filter(
+    (app) => app.status === "Rejected"
+  ).length;
+
+  const filteredApplications = statusFilter
+    ? applications.filter((app) => app.status === statusFilter)
+    : applications;
+
+  const recentApplications = [...filteredApplications]
+    .sort((a, b) => new Date(b.appliedDate) - new Date(a.appliedDate))
+    .slice(0, 6);
+
+  const handleCardClick = (status) => {
+    if (statusFilter === status) {
+      setStatusFilter(""); // Unselect if already selected
+    } else {
+      setStatusFilter(status);
+    }
+  };
 
   return (
     <motion.div
@@ -69,9 +117,7 @@ const Dashboard = () => {
       animate="animate"
       className="px-6 py-26 bg-base-200 min-h-screen"
     >
-      {/* Page Title */}
       <h1 className="text-3xl font-bold mb-10 text-center text-secondary">
-        
         Welcome back, {user?.name || "User"} 👋
       </h1>
 
@@ -82,56 +128,101 @@ const Dashboard = () => {
         animate="animate"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
       >
-        {/* Card 1 */}
-        <motion.div variants={cardVariants} className="bg-primary text-primary-content rounded-lg p-6 shadow-md">
+        <motion.div
+          variants={cardVariants}
+          onClick={() => handleCardClick("")} // Show all
+          className={`cursor-pointer bg-primary text-primary-content rounded-lg p-6 shadow-md ${
+            statusFilter === "" && "ring-4 ring-primary-content"
+          }`}
+        >
           <h2 className="text-xl font-semibold">Total Applications</h2>
           <p className="text-4xl font-bold mt-2">
-            <CountUp end={1124} duration={4} />
+            <CountUp end={totalApplications} duration={2} />
           </p>
         </motion.div>
 
-        {/* Card 2 */}
-        <motion.div variants={cardVariants} className="bg-success text-success-content rounded-lg p-6 shadow-md">
+        <motion.div
+          variants={cardVariants}
+          onClick={() => handleCardClick("Offer")}
+          className={`cursor-pointer bg-success text-success-content rounded-lg p-6 shadow-md ${
+            statusFilter === "Offer" && "ring-4 ring-success-content"
+          }`}
+        >
           <h2 className="text-xl font-semibold">Offers Received</h2>
           <p className="text-4xl font-bold mt-2">
-            <CountUp end={1115} duration={4} />
+            <CountUp end={offersReceived} duration={2} />
           </p>
         </motion.div>
 
-        {/* Card 3 */}
-        <motion.div variants={cardVariants} className="bg-info text-info-content rounded-lg p-6 shadow-md">
+        <motion.div
+          variants={cardVariants}
+          onClick={() => handleCardClick("Interview")}
+          className={`cursor-pointer bg-info text-info-content rounded-lg p-6 shadow-md ${
+            statusFilter === "Interview" && "ring-4 ring-info-content"
+          }`}
+        >
           <h2 className="text-xl font-semibold">Interviews Scheduled</h2>
           <p className="text-4xl font-bold mt-2">
-            <CountUp end={1117} duration={4} />
+            <CountUp end={interviewsScheduled} duration={2} />
           </p>
         </motion.div>
 
-        {/* Card 4 */}
-        <motion.div variants={cardVariants} className="bg-error text-error-content rounded-lg p-6 shadow-md">
+        <motion.div
+          variants={cardVariants}
+          onClick={() => handleCardClick("Rejected")}
+          className={`cursor-pointer bg-error text-error-content rounded-lg p-6 shadow-md ${
+            statusFilter === "Rejected" && "ring-4 ring-error-content"
+          }`}
+        >
           <h2 className="text-xl font-semibold">Rejections</h2>
           <p className="text-4xl font-bold mt-2">
-            <CountUp end={1112} duration={4} />
+            <CountUp end={rejections} duration={2} />
           </p>
         </motion.div>
       </motion.div>
 
       {/* Recent Applications List */}
       <div>
-        <h2 className="text-2xl font-bold mb-4">Recent Applications</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold">
+            {statusFilter
+              ? `Showing ${statusFilter} Applications`
+              : "Recent Applications"}
+          </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recentApplications.map((app) => (
-            <ApplicationCard
-              key={app.id}
-              company={app.company}
-              position={app.position}
-              status={app.status}
-              appliedDate={app.appliedDate}
-              onEdit={() => console.log("Edit", app.id)}
-              onDelete={() => console.log("Delete", app.id)}
-            />
-          ))}
+          {statusFilter && (
+            <button
+              onClick={() => setStatusFilter("")}
+              className="btn btn-sm btn-outline btn-secondary"
+            >
+              Clear Filter
+            </button>
+          )}
         </div>
+
+        {loading ? (
+          <div>Loading recent applications...</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recentApplications.length === 0 ? (
+              <div className="col-span-3 text-center">
+                No applications found.
+              </div>
+            ) : (
+              recentApplications.map((app) => (
+                <ApplicationCard
+                  key={app._id}
+                  company={app.company}
+                  position={app.position}
+                  status={app.status}
+                  appliedDate={new Date(app.appliedDate).toLocaleDateString()}
+                  onEdit={() => handleEdit(app._id)}
+                  onDelete={() => handleDelete(app._id)}
+                />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );
