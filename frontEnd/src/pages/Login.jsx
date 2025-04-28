@@ -11,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,7 +23,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-  
+    setLoading(true);
     try {
       const res = await axios.post("/api/auth/login", formData, {
         withCredentials: true,
@@ -35,6 +36,8 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
+    }finally{
+      setLoading(false);
     }
   };
   
@@ -63,7 +66,28 @@ const Login = () => {
             onChange={handleChange}
             required
           />
-          <button className="btn btn-primary w-full">Login</button>
+
+                <div className="mt-6">
+                {loading ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="btn btn-primary w-full flex justify-center items-center gap-2"
+                  >
+                    Logging in
+                    <span className="flex gap-1">
+                      <span className="dot">.</span>
+                      <span className="dot">.</span>
+                      <span className="dot">.</span>
+                    </span>
+                  </button>
+                ) : (
+                  <button type="submit" className="btn btn-primary w-full">
+                    Login
+                  </button>
+                )}
+              </div>
+          
         </form>
         <p className="text-sm text-center">
           Don't have an account?{" "}

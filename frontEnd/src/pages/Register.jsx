@@ -6,6 +6,7 @@ const Register = () => {
   const [formData, setFormData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,6 +17,7 @@ const Register = () => {
     setError("");
 
     try {
+      setLoading(true);
       const res = await axios.post("/api/auth/register", formData, {
         withCredentials: true, // important if you're using cookies for auth
       });
@@ -24,6 +26,8 @@ const Register = () => {
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -60,7 +64,28 @@ const Register = () => {
             onChange={handleChange}
             required
           />
-          <button className="btn btn-secondary w-full">Register</button>
+
+              <div className="mt-6">
+                {loading ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="btn btn-primary w-full flex justify-center items-center gap-2"
+                  >
+                    Registering
+                    <span className="flex gap-1">
+                      <span className="dot">.</span>
+                      <span className="dot">.</span>
+                      <span className="dot">.</span>
+                    </span>
+                  </button>
+                ) : (
+                  <button type="submit" className="btn btn-secondary w-full">
+                    Register
+                  </button>
+                )}
+              </div>
+
         </form>
         <p className="text-sm text-center">
           Already have an account?{" "}
