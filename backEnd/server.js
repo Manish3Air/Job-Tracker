@@ -2,9 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const path = require("path");
 
 const authRoutes = require('./routes/authRoutes');
 const applicationRoutes = require('./routes/applicationRoutes');
+const resumeRoutes = require('./routes/resumeRoutes');
 
 
 
@@ -32,6 +34,9 @@ app.use(
 // ✅ Routes
 app.use('/api/auth', authRoutes); // ✅ Auth routes
 app.use('/api/applications', applicationRoutes);
+app.use('/api/resumes', resumeRoutes);
+// Serve resumes statically
+// app.use("/uploads/resumes", express.static(path.join(__dirname, "uploads", "resumes")));
 
 
 // ✅ Start server

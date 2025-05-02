@@ -30,6 +30,10 @@ const applicationSchema = new mongoose.Schema(
       ref: "User", // Linking application to the User
       required: true,
     },
+    resume: {
+      type: String,
+      required: true, // assuming you have a Resume model
+    },
   },
   { timestamps: true }
 );

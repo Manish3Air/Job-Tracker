@@ -1,22 +1,32 @@
 // src/App.jsx
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Docs from './pages/Docs';
-import Dashboard from './pages/Dashboard';
-import Tracker from './pages/Tracker';
-import Analytics from './pages/Analytics';
-import Me from './pages/Me';
-import AddApplication from './pages/AddApplication'; // ✅ NEW Import
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Docs from "./pages/Docs";
+import Dashboard from "./pages/Dashboard";
+import Tracker from "./pages/Tracker";
+import Analytics from "./pages/Analytics";
+import Me from "./pages/Me";
+import ResumeBuilder from "./pages/ResumeBuilder";
+import AddApplication from "./pages/AddApplication"; // ✅ NEW Import
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import BackToTop from './components/BackToTop';
-import PrivateRoute from './components/PrivateRoute';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import BackToTop from "./components/BackToTop";
+import PrivateRoute from "./components/PrivateRoute";
+
+// src/main.jsx or App.jsx
+import { ResumeProvider } from "./context/ResumeContext";
+import {Application} from "./context/ApplicationContext";
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -29,14 +39,56 @@ const AnimatedRoutes = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/docs" element={<Docs />} />
-
         {/* Private Routes */}
-        <Route path="/me" element={<PrivateRoute><Me /></PrivateRoute>} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-        <Route path="/tracker" element={<PrivateRoute><Tracker /></PrivateRoute>} />
-        <Route path="/analytics" element={<PrivateRoute><Analytics /></PrivateRoute>} />
-        <Route path="/add-application" element={<PrivateRoute><AddApplication /></PrivateRoute>} /> {/* ✅ Added Route */}
-
+        <Route
+          path="/me"
+          element={
+            <PrivateRoute>
+              <Me />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/tracker"
+          element={
+            <PrivateRoute>
+              <Tracker />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <PrivateRoute>
+              <Analytics />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/resume-builder"
+          element={
+            <PrivateRoute>
+              <ResumeBuilder />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-application"
+          element={
+            <PrivateRoute>
+              <AddApplication />
+            </PrivateRoute>
+          }
+        />{" "}
+        {/* ✅ Added Route */}
         {/* Fallback 404 */}
         <Route path="*" element={<Landing />} />
       </Routes>
@@ -50,7 +102,11 @@ function App() {
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
         <div className="flex-grow">
-          <AnimatedRoutes />
+          <ResumeProvider>
+            <Application>
+            <AnimatedRoutes />
+            </Application>
+          </ResumeProvider>
         </div>
         <Footer />
         <BackToTop />

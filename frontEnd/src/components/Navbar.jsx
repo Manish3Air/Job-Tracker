@@ -28,12 +28,20 @@ const Navbar = () => {
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center bg-base-100 hover:bg-base-300 rounded-full p-2 transition">
-            <Link
+            {user ? (<Link
+              to="/dashboard"
+              className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-green-500 text-transparent bg-clip-text"
+            >
+              JobTracker
+            </Link>) : (<Link
               to="/"
               className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-green-500 text-transparent bg-clip-text"
             >
               JobTracker
-            </Link>
+            </Link>)
+
+            }
+            
           </div> 
 
           {(
@@ -62,6 +70,14 @@ const Navbar = () => {
                           className="block px-4 py-2 hover:bg-base-200"
                         >
                           Tracker
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/resume-builder"
+                          className="block px-4 py-2 hover:bg-base-200"
+                        >
+                          Resume Builder
                         </Link>
                       </li>
                       

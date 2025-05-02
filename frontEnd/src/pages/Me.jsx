@@ -1,9 +1,37 @@
 // src/pages/Me.jsx
-import React, { useContext } from 'react';
+import { useContext, useEffect } from "react";
 import  AuthContext  from '../context/AuthContext';
+import axios from '../api/axios';
+// Any page or component
+import { useApplication } from "../context/ApplicationContext";
+
+
+
 
 const Me = () => {
   const { user } = useContext(AuthContext); // Accessing user data from AuthContext
+  const { Application, setApplication } = useApplication();
+
+// Fetch and set once in one page
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  axios.get("/api/applications", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => setApplication(res.data.applications));
+}, []);
+
+const totalApplications = Application.length;
+  const offersReceived = Application.filter(
+    (app) => app.status === "Offer"
+  ).length;
+  const interviewsScheduled = Application.filter(
+    (app) => app.status === "Interview"
+  ).length;
+  const rejections = Application.filter(
+    (app) => app.status === "Rejected"
+  ).length;
 
   return (
     <div className="px-6 py-26 bg-base-200 ">
@@ -31,25 +59,25 @@ const Me = () => {
           {/* Job Applications Count */}
           <div className="flex justify-between items-center">
             <label className="font-semibold text-lg text-base-content">Total Applications:</label>
-            <p className="text-base-content-600">24</p>
+            <p className="text-base-content-600">{totalApplications}</p>
           </div>
 
           {/* Offers Received */}
           <div className="flex justify-between items-center">
             <label className="font-semibold text-lg text-base-content">Offers Received:</label>
-            <p className="text-base-content-600">5</p>
+            <p className="text-base-content-600">{offersReceived}</p>
           </div>
 
           {/* Interviews Scheduled */}
           <div className="flex justify-between items-center">
             <label className="font-semibold text-lg text-base-content">Interviews Scheduled:</label>
-            <p className="text-base-content-600">7</p>
+            <p className="text-base-content-600">{interviewsScheduled}</p>
           </div>
 
           {/* Rejections */}
           <div className="flex justify-between items-center">
             <label className="font-semibold text-lg text-base-content">Rejections:</label>
-            <p className="text-base-content-600">12</p>
+            <p className="text-base-content-600">{rejections}</p>
           </div>
         </div>
 

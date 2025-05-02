@@ -7,7 +7,7 @@ const Tracker = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
+  // const [Deleting,SetDeleting] = useState(false);
 
   // Fetch job applications from backend
   useEffect(() => {
@@ -43,7 +43,7 @@ const Tracker = () => {
 
   const handleDelete = async (applicationId) => {
     if (!window.confirm("Are you sure you want to delete this application?")) return;
-
+    // SetDeleting(true);
     try {
       const token = localStorage.getItem("token");
       await axios.delete(`/api/applications/${applicationId}`, {
@@ -87,6 +87,7 @@ const Tracker = () => {
                 position={app.position}
                 status={app.status}
                 notes={app.notes}
+                resume={app.resume}
                 appliedDate={app.appliedDate}
                 onEdit={() => handleEdit(app._id)}
                 onDelete={() => handleDelete(app._id)}

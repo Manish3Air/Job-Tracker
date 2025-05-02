@@ -3,27 +3,30 @@
 const Application = require("../models/Application.js")
 
 // Create a new application
- const createApplication = async (req, res) => {
+const createApplication = async (req, res) => {
   try {
-    const { company, position, status, appliedDate, notes } = req.body;
+    const { company, position, status, appliedDate, resume, notes } = req.body;
 
     const application = new Application({
       company,
       position,
       status,
       appliedDate,
+      resume,
       notes,
-      user: req.user.id, // we will get user from auth middleware
+      user: req.user.id, // from auth middleware
     });
 
-    await application.save();
+    const savedApp = await application.save();
+    // const populatedApp = await savedApp.populate("resume");
 
-    res.status(201).json({ success: true, application });
+    res.status(201).json({ success: true, application: savedApp });
   } catch (error) {
     console.error("Create Application Error:", error);
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
 
 // Get all applications of logged-in user
  const getApplications = async (req, res) => {
@@ -55,6 +58,10 @@ const getApplicationById = async (req, res) => {
       res.status(500).json({ success: false, message: "Server Error" });
     }
   };
+
+  // get resume by id 
+  // const applications = await Application.find({ user: req.user.id }).populate("resume");
+
   
 
 // Update an application

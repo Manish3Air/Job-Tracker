@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthContext";
 import ApplicationCard from "../components/ApplicationCard";
 import CountUp from "react-countup";
 import axios from "../api/axios";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const pageVariants = {
   initial: { opacity: 0, y: 50 },
@@ -215,6 +215,7 @@ const Dashboard = () => {
                   company={app.company}
                   position={app.position}
                   status={app.status}
+                  resume={app.resume}
                   appliedDate={new Date(app.appliedDate).toLocaleDateString()}
                   onEdit={() => handleEdit(app._id)}
                   onDelete={() => handleDelete(app._id)}

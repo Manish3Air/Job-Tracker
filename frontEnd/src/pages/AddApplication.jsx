@@ -8,13 +8,15 @@ const AddApplication = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const editingApplicationId = location.state?.applicationId || null;
-//   console.log("id in add-application",editingApplicationId);
+  const [resumes, setResumes] = useState([]);
+  
 
   const [formData, setFormData] = useState({
     company: "",
     position: "",
     status: "Applied",
     appliedDate: "",
+    resume: "", // Store resume ID here
     notes: "",
   });
 
@@ -28,18 +30,21 @@ const AddApplication = () => {
       setLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`/api/applications/${editingApplicationId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `/api/applications/${editingApplicationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const app = response.data.application;
-        // console.log("Data fetched according to id",app);
         setFormData({
           company: app.company || "",
           position: app.position || "",
           status: app.status || "Applied",
           appliedDate: app.appliedDate ? app.appliedDate.split("T")[0] : "",
+          resume: app.resume || "",
           notes: app.notes || "",
         });
       } catch (error) {
@@ -52,10 +57,30 @@ const AddApplication = () => {
     fetchApplication();
   }, [editingApplicationId]);
 
+  // Fetch resumes
+  useEffect(() => {
+    const fetchResumes = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("/api/resumes", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setResumes(res.data.resumes);
+        // console.log(res.data);
+      } catch (err) {
+        console.error("Failed to fetch resumes", err);
+      }
+    };
+
+    fetchResumes();
+  }, []);
+
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData, 
-      [e.target.name]: e.target.value 
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -67,20 +92,18 @@ const AddApplication = () => {
       const token = localStorage.getItem("token");
 
       if (editingApplicationId) {
-        // Update application
         await axios.put(`/api/applications/${editingApplicationId}`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Application updated!");
       } else {
-        // Add new application
         await axios.post("/api/applications", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         console.log("Application added!");
       }
 
-      navigate("/tracker"); // Redirect after add/edit
+      navigate("/tracker");
     } catch (error) {
       console.error("Failed to submit application:", error);
     } finally {
@@ -89,14 +112,14 @@ const AddApplication = () => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="px-6 py-26 min-h-screen bg-base-200 flex justify-center items-start"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <form 
-        onSubmit={handleSubmit} 
+      <form
+        onSubmit={handleSubmit}
         className="w-full max-w-lg bg-base-100 p-8 rounded-2xl shadow-lg space-y-6"
       >
         <h1 className="text-3xl font-bold text-center text-primary">
@@ -112,7 +135,7 @@ const AddApplication = () => {
               <label className="label">
                 <span className="label-text">Company</span>
               </label>
-              <input 
+              <input
                 type="text"
                 name="company"
                 value={formData.company}
@@ -127,7 +150,7 @@ const AddApplication = () => {
               <label className="label">
                 <span className="label-text">Position</span>
               </label>
-              <input 
+              <input
                 type="text"
                 name="position"
                 value={formData.position}
@@ -142,7 +165,7 @@ const AddApplication = () => {
               <label className="label">
                 <span className="label-text">Status</span>
               </label>
-              <select 
+              <select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
@@ -160,7 +183,7 @@ const AddApplication = () => {
               <label className="label">
                 <span className="label-text">Applied Date</span>
               </label>
-              <input 
+              <input
                 type="date"
                 name="appliedDate"
                 value={formData.appliedDate}
@@ -170,12 +193,32 @@ const AddApplication = () => {
               />
             </div>
 
+            {/* Resume Selection */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Select Resume</span>
+              </label>
+              <select
+                name="resume"
+                value={formData.resume}
+                onChange={handleChange}
+                className="select select-bordered w-full"
+              >
+                <option value="">Select</option>
+                {resumes.map((r) => (
+                  <option key={r._id} value={r._id}>
+                    {r.title || `Resume ${r._id}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             {/* Notes */}
             <div className="form-control w-full">
               <label className="label">
                 <span className="label-text">Notes (optional)</span>
               </label>
-              <textarea 
+              <textarea
                 name="notes"
                 value={formData.notes}
                 onChange={handleChange}
@@ -185,15 +228,18 @@ const AddApplication = () => {
             </div>
 
             {/* Submit Button */}
-            <button 
+            <button
               type="submit"
               disabled={submitting}
               className="btn btn-primary w-full"
             >
-              {submitting 
-                ? (editingApplicationId ? "Updating..." : "Adding...") 
-                : (editingApplicationId ? "Update Application" : "Add Application")
-              }
+              {submitting
+                ? editingApplicationId
+                  ? "Updating..."
+                  : "Adding..."
+                : editingApplicationId
+                ? "Update Application"
+                : "Add Application"}
             </button>
           </>
         )}
