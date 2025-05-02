@@ -1,5 +1,35 @@
-node_modules
-dist
-dist-ssr
-*.local
+# Node modules
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# Local environment variables
 *.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Vite / Next.js specific
+.vite/
+.next/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Optional: ignore local development overrides
+*.local
