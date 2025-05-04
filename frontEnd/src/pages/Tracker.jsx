@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import ApplicationCard from "../components/ApplicationCard";
+import {toast} from "sonner";
+import { XCircleIcon } from '@heroicons/react/24/solid';
 
 const Tracker = () => {
   const [applications, setApplications] = useState([]);
@@ -55,6 +57,23 @@ const Tracker = () => {
       // After delete, refetch or update UI manually
       setApplications((prev) => prev.filter((app) => app._id !== applicationId));
       console.log("Deleted successfully!");
+      toast(
+              <div className="flex items-start gap-3 animate-slide-in">
+                <XCircleIcon className="w-6 h-6 text-red-500 mt-1" />
+                <div>
+                  <p className="text-sm font-semibold text-red-600">Success!</p>
+                  <p className="text-sm text-gray-800">Your Application has been deleted.</p>
+                </div>
+              </div>,
+              {
+                duration: 4000,
+                style: {
+                  background: '#f0fdf4',
+                  border: '1px solid #bbf7d0',
+                  boxShadow: '0 4px 20px rgba(34, 197, 94, 0.1)',
+                },
+              }
+            );
     } catch (error) {
       console.error("Error deleting application:", error);
     }

@@ -7,6 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { Toaster } from 'sonner';
 
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -105,6 +106,7 @@ function App() {
           <ResumeProvider>
             <Application>
             <AnimatedRoutes />
+            <Toaster richColors position="top-right" />
             </Application>
           </ResumeProvider>
         </div>

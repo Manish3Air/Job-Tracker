@@ -1,49 +1,78 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
 @plugin "daisyui/theme" {
   name: "dark";
-  
   default: true;
   --color-primary: green;
   --color-secondary: #de2a8a;
   --color-base-200: #1d232a;
   --color-base-100: #191e24;
 }
+
 @plugin "daisyui/theme" {
-    name: "light";
-    default: true;
-    --color-base-100: #ffffff;
-    --color-base-200: #ecf9ff;
-    --color-primary: green;
-    --color-secondary: #de2a8a;
-  }
+  name: "light";
+  default: true;
+  --color-primary: green;
+  --color-secondary: #de2a8a;
+  --color-base-100: #ffffff;
+  --color-base-200: #ecf9ff;
+}
 
-  @keyframes reveal {
-    0% {
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
+/* Fancy Toast Animation - Slide In */
+@keyframes slide-in {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
   }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
-  @keyframes blink {
-    0% { opacity: 0.2; }
-    20% { opacity: 1; }
-    100% { opacity: 0.2; }
+/* Add this class to toast content */
+.animate-slide-in {
+  animation: slide-in 0.4s ease-out;
+}
+
+/* Reveal Animation (if you want to use it elsewhere) */
+@keyframes reveal {
+  0% {
+    opacity: 0;
   }
-  .dot {
-    animation: blink 1.4s infinite;
+  10% {
+    opacity: 1;
   }
-  .dot:nth-child(2) {
-    animation-delay: 0.2s;
+  90% {
+    opacity: 1;
   }
-  .dot:nth-child(3) {
-    animation-delay: 0.4s;
+  100% {
+    opacity: 0;
   }
+}
+
+/* Loading Dot Animation */
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.dot {
+  animation: blink 1.4s infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}

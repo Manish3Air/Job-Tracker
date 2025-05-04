@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import { useAuth } from "../context/AuthContext";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import { toast } from 'sonner';
 
 
 const Login = () => {
@@ -33,6 +34,7 @@ const Login = () => {
   
       login(res.data, res.data.token); // ✅ call login from AuthContext
       console.log("User logged in:", res.data);
+      toast.success("Login Successful");
       navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");

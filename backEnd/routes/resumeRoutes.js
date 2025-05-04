@@ -2,7 +2,7 @@
 const express = require("express");
 const multer = require("multer");
 const Resume = require("../models/resumeModel");
-const { uploadResume, getResumeByID, deleteResume } = require("../controllers/resumeController");
+const { uploadResume, getResumeByID, deleteResume, updateResume } = require("../controllers/resumeController");
 const { storage } = require("../config/cloudinary"); // Make sure filename matches your file
 const { protect } = require("../middleware/authMiddleware");
 
@@ -24,6 +24,8 @@ router.get("/", protect, async (req, res) => {
 });
 
 // GET a specific resume by ID
+router.put("/:id", protect, upload.single("file"), updateResume);
+
 router.get("/:id", protect, getResumeByID);
 
 // POST a new resume (upload)

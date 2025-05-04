@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../api/axios";
+import {toast} from "sonner";
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 const AddApplication = () => {
   const navigate = useNavigate();
@@ -100,6 +102,23 @@ const AddApplication = () => {
         await axios.post("/api/applications", formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
+        toast(
+                <div className="flex items-start gap-3 animate-slide-in">
+                  <CheckCircleIcon className="w-6 h-6 text-green-500 mt-1" />
+                  <div>
+                    <p className="text-sm font-semibold text-green-600">Success!</p>
+                    <p className="text-sm text-gray-800">Your Application has been added.</p>
+                  </div>
+                </div>,
+                {
+                  duration: 4000,
+                  style: {
+                    background: '#f0fdf4',
+                    border: '1px solid #bbf7d0',
+                    boxShadow: '0 4px 20px rgba(34, 197, 94, 0.1)',
+                  },
+                }
+              );
         console.log("Application added!");
       }
 

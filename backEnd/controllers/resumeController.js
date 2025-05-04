@@ -2,6 +2,54 @@
 const Resume = require("../models/resumeModel");
 const {cloudinary} = require("../config/cloudinary");
 
+const updateResume = async (req, res) => {
+  try {
+    const { title, role, skills, summary } = req.body;
+    const resumeId = req.params.id;
+
+    const resume = await Resume.findById(resumeId);
+    if (!resume) {
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    // Only allow user to update their own resume
+    if (resume.user.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized to update this resume" });
+    }
+
+    // If a new file is uploaded, replace the existing one on Cloudinary
+    if (req.file) {
+      // Delete old file from Cloudinary
+      if (resume.publicId) {
+        await cloudinary.uploader.destroy(resume.publicId);
+      }
+
+      // Upload new file
+      const uploaded = await cloudinary.uploader.upload(req.file.path, {
+        resource_type: "raw",
+        folder: "resumes",
+      });
+
+      resume.cloudinaryUrl = uploaded.secure_url;
+      resume.publicId = uploaded.public_id;
+    }
+
+    // Update fields
+    resume.title = title || resume.title;
+    resume.role = role || resume.role;
+    resume.skills = skills ? skills.split(",").map(s => s.trim()) : resume.skills;
+    resume.summary = summary || resume.summary;
+
+    await resume.save();
+
+    res.status(200).json({ message: "Resume updated successfully", resume });
+  } catch (err) {
+    console.error("Error updating resume:", err);
+    res.status(500).json({ message: "Server error updating resume" });
+  }
+};
+
+
 const deleteResume = async (req, res) => {
   try {
     const resume = await Resume.findById(req.params.id);
@@ -91,4 +139,4 @@ const getResumeByID = async(req,res) => {
       
 
 
-module.exports={createResume,getResumeByID,uploadResume,deleteResume};
+module.exports={createResume,getResumeByID,uploadResume,deleteResume,updateResume};
