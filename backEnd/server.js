@@ -18,6 +18,12 @@ const app = express();
 // ✅ Connect to DB
 connectDB();
 
+// Health Endpoint for to keep the server alive
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+
 // ✅ Middlewares
 app.use(express.json());
 
