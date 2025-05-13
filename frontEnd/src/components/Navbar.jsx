@@ -176,6 +176,16 @@ const Navbar = () => {
                 <>
                   <li>
                     <Link
+                      to="/me"
+                      className="block px-4 py-2 hover:bg-base-200"
+                      onClick={() => setMobileMenu(false)}
+                    >
+                      Profile
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
                       to="/dashboard"
                       className="block px-4 py-2 hover:bg-base-200"
                       onClick={() => setMobileMenu(false)}
@@ -183,6 +193,37 @@ const Navbar = () => {
                       Dashboard
                     </Link>
                   </li>
+
+                  <li>
+                    <Link
+                      to="/analytics"
+                      className="block px-4 py-2 hover:bg-base-200"
+                      onClick={() => setMobileMenu(false)}
+                    >
+                      Analytics
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/tracker"
+                      className="block px-4 py-2 hover:bg-base-200"
+                      onClick={() => setMobileMenu(false)}
+                    >
+                      Tracker
+                    </Link>
+                  </li>
+
+                <li>
+                    <Link
+                      to="/resume-builder"
+                      className="block px-4 py-2 hover:bg-base-200"
+                      onClick={() => setMobileMenu(false)}
+                    >
+                      Resume-Builder
+                    </Link>
+                  </li>
+
                   <li>
                     <button
                       onClick={() => {

@@ -14,7 +14,6 @@ const ResumeBuilder = () => {
   const [error, setError] = useState(null);
   const [refreshKey, setRefreshKey] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
-
   const [editingId, setEditingId] = useState(null);
 
   const token = localStorage.getItem("token");
@@ -28,10 +27,6 @@ const ResumeBuilder = () => {
     setIsEditing(false);
     setEditingId(null);
   };
-
-
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,16 +43,12 @@ const ResumeBuilder = () => {
 
       if (isEditing) {
         await axios.put(`/api/resumes/${editingId}`, formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         toast.success("Resume updated successfully!");
       } else {
         await axios.post("/api/resumes", formData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         toast(
           <div className="flex items-start gap-3 animate-slide-in">
@@ -101,8 +92,8 @@ const ResumeBuilder = () => {
   };
 
   return (
-    <div className="px-6 py-1 bg-base-200 min-h-screen">
-      <h1 className="text-3xl font-bold mt-22 mb-8 text-center text-primary">
+    <div className="px-4 sm:px-6 py-6 bg-base-200 min-h-screen">
+      <h1 className="text-3xl font-bold mt-20 mb-8 text-center text-primary">
         Make / Update Resume
       </h1>
 
@@ -110,7 +101,7 @@ const ResumeBuilder = () => {
         {/* Resume Form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-base-100 px-6 py-8 rounded-lg  shadow-lg w-full lg:max-w-7xl space-y-4"
+          className="bg-base-100 px-6 py-8 rounded-lg shadow-lg w-full lg:max-w-3xl space-y-4"
         >
           <div>
             <label className="block font-medium">Resume Title</label>
@@ -193,7 +184,7 @@ const ResumeBuilder = () => {
         </form>
 
         {/* Resume List */}
-        <div className="w-xl lg:max-w-2xl mr-5">
+        <div className="w-full lg:max-w-2xl mr-0 lg:mr-5">
           <ResumeList onSelect={handleSelectResume} refreshTrigger={refreshKey} />
         </div>
       </div>
