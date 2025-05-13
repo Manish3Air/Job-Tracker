@@ -222,29 +222,32 @@ const Analytics = () => {
             </motion.div>
 
             {/* Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 px-4 sm:px-6 md:px-8 w-full max-w-7xl mx-auto">
               {/* Line Chart */}
               <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="bg-100 p-6 rounded-lg shadow-md"
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                className="bg-base-100 p-4 sm:p-6 md:p-8 rounded-lg shadow-md w-full"
               >
-                <h2 className="text-2xl font-semibold mb-4">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center md:text-left">
                   Applications & Interviews Over Time
                 </h2>
-                <Line
-                  data={lineChartData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Monthly Trend",
+                <div className="w-full h-[250px] sm:h-[300px] md:h-[350px]">
+                  <Line
+                    data={lineChartData}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: "Monthly Trend",
+                        },
                       },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                </div>
               </motion.div>
 
               {/* Pie Chart */}
@@ -252,26 +255,29 @@ const Analytics = () => {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                className="bg-100 p-6 rounded-lg shadow-md"
+                className="bg-base-100 p-4 sm:p-6 md:p-8 rounded-lg shadow-md w-full"
               >
-                <h2 className="text-2xl font-semibold mb-4">
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center md:text-left">
                   Application Status Distribution
                 </h2>
-                <Pie
-                  data={pieChartData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Current Status Split",
+                <div className="w-full h-[300px] sm:h-[350px] md:h-[400px]">
+                  <Pie
+                    data={pieChartData}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: {
+                        title: {
+                          display: true,
+                          text: "Current Status Split",
+                        },
+                        legend: {
+                          position: "bottom",
+                        },
                       },
-                      legend: {
-                        position: "bottom",
-                      },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                </div>
               </motion.div>
             </div>
           </>
