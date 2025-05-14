@@ -16,6 +16,9 @@ const AddApplication = () => {
   const [formData, setFormData] = useState({
     company: "",
     position: "",
+    appPlatform: "",
+    salary: "",
+    location: "",
     status: "Applied",
     appliedDate: "",
     resume: "", // Store resume ID here
@@ -44,6 +47,9 @@ const AddApplication = () => {
         setFormData({
           company: app.company || "",
           position: app.position || "",
+          appPlatform: app.appPlatform || "",
+          salary: app.salary || "",
+          location: app.location || "",
           status: app.status || "Applied",
           appliedDate: app.appliedDate ? app.appliedDate.split("T")[0] : "",
           resume: app.resume || "",
@@ -173,6 +179,48 @@ const AddApplication = () => {
                 type="text"
                 name="position"
                 value={formData.position}
+                onChange={handleChange}
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+            {/* Application Platform */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Job's Platform</span>
+              </label>
+              <input
+                type="text"
+                name="appPlatform"
+                value={formData.appPlatform}
+                onChange={handleChange}
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+            {/* salary */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Salary</span>
+              </label>
+              <input
+                type="text"
+                name="salary"
+                value={formData.salary}
+                onChange={handleChange}
+                className="input input-bordered w-full"
+                required
+              />
+            </div>
+            {/* Location */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Job's Location</span>
+              </label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
                 onChange={handleChange}
                 className="input input-bordered w-full"
                 required

@@ -102,6 +102,9 @@ const Tracker = () => {
                 key={app._id}
                 company={app.company}
                 position={app.position}
+                appPlatform={app.appPlatform}
+                salary={app.salary}
+                location={app.location}
                 status={app.status}
                 notes={app.notes}
                 resume={app.resume}

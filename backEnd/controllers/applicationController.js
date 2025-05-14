@@ -5,11 +5,14 @@ const Application = require("../models/Application.js")
 // Create a new application
 const createApplication = async (req, res) => {
   try {
-    const { company, position, status, appliedDate, resume, notes } = req.body;
+    const { company, position, status, appliedDate, resume, notes, appPlatform, salary, location } = req.body;
 
     const application = new Application({
       company,
       position,
+      appPlatform,
+      salary,
+      location,
       status,
       appliedDate,
       resume,

@@ -28,6 +28,7 @@ const updateResume = async (req, res) => {
       const uploaded = await cloudinary.uploader.upload(req.file.path, {
         resource_type: "raw",
         folder: "resumes",
+        access_mode: "public",
       });
 
       resume.cloudinaryUrl = uploaded.secure_url;
@@ -99,23 +100,7 @@ const uploadResume = async (req, res) => {
   }
 };
 
-const createResume = async (req, res) => {
-  try {
-    const { title, role, skills, summary } = req.body;
-    const resume = await Resume.create({
-      user: req.user._id,
-      title,
-      role,
-      skills: skills.split(",").map(s => s.trim()),
-      summary,
-      fileUrl:  req.file.path,
-      // fileUrl: `/uploads/resumes/${req.file.filename}`,
-    });
-    res.status(201).json(resume);
-  } catch (error) {
-    res.status(500).json({ message: "Resume upload failed", error });
-  }
-};
+
 
 const getResumeByID = async(req,res) => {
     try {
@@ -139,4 +124,4 @@ const getResumeByID = async(req,res) => {
       
 
 
-module.exports={createResume,getResumeByID,uploadResume,deleteResume,updateResume};
+module.exports={getResumeByID,uploadResume,deleteResume,updateResume};

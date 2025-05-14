@@ -5,6 +5,9 @@ import axios from "../api/axios";
 export default function ApplicationCard({
   company,
   position,
+  appPlatform,
+  salary,
+  location,
   status,
   appliedDate,
   notes,
@@ -15,12 +18,13 @@ export default function ApplicationCard({
   const [resumeData, setResumeData] = useState(null);
   // const [Delete,SetDeleting] = useState(false);
 
-  const statusColor = {
-    Applied: "badge-primary",
-    Interview: "badge-info",
-    Offer: "badge-success",
-    Rejected: "badge-error",
-  }[status] || "badge-ghost";
+  const statusColor =
+    {
+      Applied: "badge-primary",
+      Interview: "badge-info",
+      Offer: "badge-success",
+      Rejected: "badge-error",
+    }[status] || "badge-ghost";
 
   useEffect(() => {
     const fetchResume = async () => {
@@ -47,24 +51,35 @@ export default function ApplicationCard({
     <div className="card bg-base-200 shadow-md hover:shadow-lg transition duration-300">
       <div className="card-body bg-base-100 space-y-2">
         {/* Top: Company, Position, Actions */}
-        <div className="flex justify-between items-start">
-          <div>
-            <h2 className="card-title">{company || "Unknown Company"}</h2>
-            <p className="text-sm">{position || "No Position"}</p>
+        <div className="flex justify-between items-start p-4 rounded-2xl">
+          <div className="space-y-1">
+            <h2 className="text-lg font-bold">
+              {company || "Unknown Company"}
+            </h2>
+            <p className="text-md font-medium ">
+              {position || "No Position"}
+            </p>
+            <p className="text-md font-medium ">
+              {appPlatform || "Unknown Platform"}
+            </p>
+            <p className="text-md font-medium ">
+              <span className="font-normal text-md">Salary : </span>{salary || "Unpaid"}
+            </p>
+            <p className="text-md font-medium ">
+              <span className="font-normal text-md">Location : </span>{location || "India"}
+            </p>
           </div>
-          <div className="flex space-x-2">
+          <div className="flex gap-2">
             <button
-              className="btn btn-sm btn-outline btn-primary"
+              className="p-2 rounded-lg border border-primary text-primary hover:bg-primary hover:text-white transition-all duration-150"
               onClick={onEdit}
               title="Edit"
             >
               <Pencil size={16} />
             </button>
             <button
-              // type = "Delete"
-              className="btn btn-sm btn-outline btn-error"
+              className="p-2 rounded-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-150"
               onClick={onDelete}
-              // disable = {SetDeleting}
               title="Delete"
             >
               <Trash2 size={16} />
@@ -116,7 +131,9 @@ export default function ApplicationCard({
             {status || "No Status"}
           </div>
           <div className="text-xs">
-            {appliedDate ? new Date(appliedDate).toDateString() : "Unknown Date"}
+            {appliedDate
+              ? new Date(appliedDate).toDateString()
+              : "Unknown Date"}
           </div>
         </div>
       </div>

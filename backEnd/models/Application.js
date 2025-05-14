@@ -12,6 +12,18 @@ const applicationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    appPlatform: {
+      type: String,
+      required: true,
+    },
+    salary: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
     status: {
       type: String,
       enum: ["Applied", "Interview", "Offer", "Rejected"],
